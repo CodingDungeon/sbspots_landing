@@ -1,3 +1,26 @@
+:root {
+  color-scheme: light;
+  --background: #fff;
+  --foreground: #000;
+  --accent: #e3262e;
+  --background-art: url("assets/sbspots_background.png");
+  --fade-center: rgba(255, 255, 255, 0.95);
+  --fade-middle: rgba(255, 255, 255, 0.8);
+  --fade-edge: rgba(255, 255, 255, 0);
+  --control-shadow: rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #000;
+  --foreground: #fff;
+  --background-art: url("assets/sbspots_background_dark.png");
+  --fade-center: rgba(0, 0, 0, 0.95);
+  --fade-middle: rgba(0, 0, 0, 0.8);
+  --fade-edge: rgba(0, 0, 0, 0);
+  --control-shadow: rgba(0, 0, 0, 0.8);
+}
+
 *,
 *::before,
 *::after {
@@ -6,8 +29,12 @@
 
 body {
   margin: 0;
-  background: #fff;
-  color: #000;
+  background-color: var(--background);
+  background-image: var(--background-art);
+  background-position: center;
+  background-repeat: repeat;
+  background-size: 780px auto;
+  color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -22,6 +49,12 @@ button {
   min-height: 100vh;
   min-height: 100svh;
   padding-block: 80px 48px;
+  background: radial-gradient(
+    ellipse at center,
+    var(--fade-center) 0%,
+    var(--fade-middle) 35%,
+    var(--fade-edge) 70%
+  );
 }
 
 .brand {
@@ -61,9 +94,28 @@ button {
   font-weight: 700;
   line-height: 1.5;
   letter-spacing: 0.12em;
+  text-shadow:
+    -1px -1px var(--background),
+    1px -1px var(--background),
+    -1px 1px var(--background),
+    1px 1px var(--background);
+}
+
+.brand-name-dark,
+.theme-icon-light,
+[data-theme="dark"] .brand-name-light,
+[data-theme="dark"] .theme-icon-dark {
+  display: none;
+}
+
+[data-theme="dark"] .brand-name-dark,
+[data-theme="dark"] .theme-icon-light {
+  display: block;
 }
 
 .coming-soon {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,18 +124,62 @@ button {
   max-width: 360px;
   min-height: 52px;
   margin-top: 24px;
-  padding: 12px 16px;
-  border: 2px solid #000;
-  background: #e3262e;
+  padding: 14px 24px;
+  border: 0;
+  background: transparent;
   color: #fff;
   font-size: clamp(16px, 4vw, 20px);
   font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.04em;
   line-height: 1.25;
   cursor: default;
+  filter: drop-shadow(0 4px 3px var(--control-shadow));
+}
+
+/* Separate clipped layers leave the button's keyboard outline intact. */
+.coming-soon::before,
+.coming-soon::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+  clip-path: polygon(
+    8px 0, calc(100% - 8px) 0,
+    calc(100% - 8px) 4px, calc(100% - 4px) 4px,
+    calc(100% - 4px) 8px, 100% 8px,
+    100% calc(100% - 8px), calc(100% - 4px) calc(100% - 8px),
+    calc(100% - 4px) calc(100% - 4px), calc(100% - 8px) calc(100% - 4px),
+    calc(100% - 8px) 100%, 8px 100%,
+    8px calc(100% - 4px), 4px calc(100% - 4px),
+    4px calc(100% - 8px), 0 calc(100% - 8px),
+    0 8px, 4px 8px, 4px 4px, 8px 4px
+  );
+}
+
+.coming-soon::before {
+  z-index: -2;
+  inset: 0;
+  background: var(--foreground);
+}
+
+.coming-soon::after {
+  z-index: -1;
+  inset: 3px;
+  background: var(--accent);
+  box-shadow: inset 0 0 0 2px #000;
+}
+
+.coming-soon > [aria-hidden="true"] {
+  position: absolute;
+  right: 18px;
+  font-size: 24px;
+  font-style: normal;
+  line-height: 1;
 }
 
 .theme-toggle {
   position: absolute;
+  z-index: 1;
   top: 16px;
   right: 16px;
   display: grid;
@@ -91,19 +187,33 @@ button {
   width: 44px;
   height: 44px;
   padding: 8px;
-  border: 2px solid #000;
+  border: 2px solid var(--foreground);
   border-radius: 50%;
-  background: #fff;
-  color: #000;
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 2px 4px var(--control-shadow);
   opacity: 1;
 }
 
+.theme-toggle:enabled {
+  cursor: pointer;
+}
+
+.theme-toggle:enabled:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
+
 button:focus-visible {
-  outline: 3px solid #000;
+  outline: 3px solid var(--foreground);
   outline-offset: 4px;
 }
 
 @media (min-width: 768px) {
+  body {
+    background-size: 1200px auto;
+  }
+
   .landing {
     padding-block: 88px 56px;
   }
