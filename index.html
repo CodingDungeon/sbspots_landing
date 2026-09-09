@@ -9,8 +9,35 @@
     <script src="script.js" defer></script>
   </head>
   <body>
-    <main>
-      <h1>SBSpots</h1>
+    <button
+      class="theme-toggle"
+      type="button"
+      aria-label="Switch to dark mode"
+      disabled
+    >
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+        <path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" fill="currentColor" />
+      </svg>
+    </button>
+
+    <main class="landing">
+      <div class="brand">
+        <h1 class="brand-heading">
+          <img class="logo" src="assets/sbspots_logo.png" alt="SBSpots" width="1024" height="1536">
+        </h1>
+        <img
+          class="brand-name"
+          src="assets/sbspots_name.png"
+          alt=""
+          width="2172"
+          height="724"
+        >
+        <p class="tagline">SKATE • EXPLORE • SHARE</p>
+        <button class="coming-soon" type="button" aria-disabled="true">
+          <span>COMING SOON</span>
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
     </main>
   </body>
 </html>
