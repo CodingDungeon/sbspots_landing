@@ -1,0 +1,10 @@
+/* Landing layout and theme styles will be added in subsequent tasks. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
